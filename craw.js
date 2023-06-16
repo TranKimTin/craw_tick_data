@@ -7,7 +7,7 @@ const zip = require('./zip');
 
 let symbols = ['BTCBUSD', 'BTCUSDT', 'BTCTUSD'];
 let lines = {};
-let block = 100;
+let block = 1000;
 let lastDate = moment().format('YYYY-MM-DD');
 for (let symbol of symbols) {
     lines[symbol] = [];
