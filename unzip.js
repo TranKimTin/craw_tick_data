@@ -12,7 +12,7 @@ module.exports = function (zipPath, fileName) {
             if (!entry.isDirectory) {
                 if (fileName == entry.entryName) {
                     const fileContent = zip.readFile(entry);
-                    return resolve(fileContent.toString());
+                    return resolve(fileContent);
                 }
             }
         };
