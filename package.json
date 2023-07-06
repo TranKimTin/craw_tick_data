@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "archiver": "^5.3.1",
     "binance-api-node": "^0.12.6",
     "lodash": "^4.17.21",
