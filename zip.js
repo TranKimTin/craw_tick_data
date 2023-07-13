@@ -1,20 +1,22 @@
 const fs = require('fs');
 const archiver = require('archiver');
 
-module.exports = function (fileList, fileName) {
-    const output = fs.createWriteStream(__dirname + '/' + fileName);
+module.exports = function (fileList, zipName, removeAfterZip) {
+    const output = fs.createWriteStream(__dirname + '/' + zipName);
     const archive = archiver('zip', {
         zlib: { level: 9 }
     });
 
     output.on('close', function () {
         console.log('Zip file done ' + archive.pointer() + ' total bytes');
-        for (let file of fileList) {
-            try {
-                fs.unlinkSync(`${__dirname}/${file}`);
-            }
-            catch (err) {
-                console.error(err.message);
+        if (removeAfterZip) {
+            for (let file of fileList) {
+                try {
+                    fs.unlinkSync(`${__dirname}/${file}`);
+                }
+                catch (err) {
+                    console.error(err.message);
+                }
             }
         }
     });

@@ -1,20 +1,21 @@
-const Binance = require('binance-api-node').default;
+var ping = require('ping');
 const fs = require('fs');
-const _ = require('lodash');
-const moment = require('moment');
-const zip = require('./zip');
-const client = Binance();
-const WebSocket = require('ws');
 
-let symbols = ['BTCUSDT', 'BTCTUSD', 'TUSDUSDT'];
-let prices = {};
-let difMax = 0;
-let timestamp = 0;
-client.ws.trades(symbols, trade => {
-// const trade = new WebSocket(`wss://stream.binance.com:9443/ws/btcusdt@trade`);
-// trade.on('message', function incoming(trade) {
-//  trade = JSON.parse(trade.toString());
-    let volume = trade.quantity * 1;
-
-    console.log(trade)
+let hosts = fs.readdirSync('C:\\Users\\DreamStore\\Desktop\\Tin_remote_shortcut');
+hosts = hosts.map(item => {
+    let dotIndex = item.indexOf('.');
+    item = item.slice(dotIndex - 3, dotIndex + 12)
+        .split('')
+        .filter(item => item == '.' || (item >= '0' && item <= '9'));
+    if (item[item.length - 1] == '.') item.pop();
+    return item.join('');
 });
+hosts = [...new Set(hosts)];
+
+async function main() {
+    for (let host of hosts) {
+        let res = await ping.promise.probe(host);
+        console.log(res.host, res.alive);
+    }
+}
+main();

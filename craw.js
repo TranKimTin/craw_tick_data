@@ -31,7 +31,7 @@ async function main(s) {
                     lines[_symbol] = [];
                     fs.appendFileSync(`${__dirname}/${_symbol}_${_lastDate}.txt`, s);
                 }
-                zip(fileList, fileName);
+                zip(fileList, fileName, true);
             }
 
             let line = JSON.stringify(data);
