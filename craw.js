@@ -14,7 +14,7 @@ for (let symbol of symbols) {
 }
 
 async function main(s) {
-    console.log('craw', s);
+    console.log('craw', s, moment().format('YYYY-MM-DD HH:mm:SS'));
     const trade = new WebSocket(`wss://stream.binance.com:9443/ws/${s}@trade`);
     trade.on('message', function incoming(data) {
         try {
