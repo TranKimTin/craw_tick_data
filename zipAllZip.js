@@ -7,7 +7,7 @@ if (fs.existsSync(zipFileName)) {
     fs.unlinkSync(zipFileName);
 }
 
-let fileList = fs.readdirSync('./');
+let fileList = fs.readdirSync(`${__dirname}/data`);
 fileList = fileList.filter(item => item.includes('.zip'));
 
 zip(fileList, zipFileName, false);

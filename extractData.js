@@ -6,6 +6,7 @@ let symbol = 'BTCTUSD';
 let tick_data_file = `${symbol}_tickdata.csv`;
 let lines = [];
 let count = 0;
+let block = 1000;
 
 function splitBuffer(buffer) {
     // Tách buffer thành các dòng
@@ -38,7 +39,7 @@ function updateData(data) {
             type: trade.e,
             symbol: trade.s,
             price: trade.p * 1,
-            timestamp: moment(trade.E).format('YYYY.MM.DD HH:mm:ss.SSS'),
+            timestamp: moment(trade.E).utc(0).format('YYYY.MM.DD HH:mm:ss.SSS'),
             volume: trade.q * 1,
             isBotTrade: trade.m,
             isMatchedOrder: trade.M,
@@ -49,8 +50,8 @@ function updateData(data) {
         lines.push(line);
         count++;
         // console.log({ count, timestamp: info.timestamp, price: info.price });
-        if (lines.length >= 1000) {
-            console.log(`update ${count}`);
+        if (lines.length >= block) {
+            console.log(`update ${count}___${info.timestamp}`);
             let s = lines.join('');
             lines = [];
             fs.appendFileSync(tick_data_file, s);
@@ -77,6 +78,7 @@ async function main() {
         let data = await unzip(zipPath, fileTXT);
         // data = data.split('\n').filter(item => item.trim());
         // data = data.map(item => JSON.parse(item));
+        console.log('extract', fileName);
         updateData(data);
     }
 

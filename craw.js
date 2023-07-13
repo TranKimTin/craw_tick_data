@@ -8,7 +8,7 @@ const zip = require('./zip');
 let symbols = ['BTCBUSD', 'BTCUSDT', 'BTCTUSD'];
 let lines = {};
 let block = 1000;
-let lastDate = moment().format('YYYY-MM-DD');
+let lastDate = moment().utc(0).format('YYYY-MM-DD');
 for (let symbol of symbols) {
     lines[symbol] = [];
 }
@@ -20,11 +20,11 @@ async function main(s) {
         try {
             data = JSON.parse(data.toString());
             let symbol = data.s;
-            let date = moment(data.E).format('YYYY-MM-DD');
+            let date = moment(data.E).utc(0).format('YYYY-MM-DD');
             if (date != lastDate) {
                 let _lastDate = lastDate;
                 lastDate = date;
-                let fileName = `${_lastDate}.zip`;
+                let fileName = `${__dirname}/${_lastDate}.zip`;
                 let fileList = symbols.map(item => `${item}_${_lastDate}.txt`);
                 for (let _symbol of symbols) {
                     let s = lines[symbol].join('\n') + '\n';
