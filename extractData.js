@@ -73,7 +73,7 @@ async function main() {
     fileList.sort();
 
     for (let fileName of fileList) {
-        let zipPath = `./data/${fileName}`;
+        let zipPath = `${__dirname}/data/${fileName}`;
         let fileTXT = `${symbol}_${fileName}`.replace('zip', 'txt');
         let data = await unzip(zipPath, fileTXT);
         // data = data.split('\n').filter(item => item.trim());
