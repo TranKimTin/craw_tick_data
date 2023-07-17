@@ -24,7 +24,7 @@ async function main(s) {
             if (date != lastDate) {
                 let _lastDate = lastDate;
                 lastDate = date;
-                let fileName = `${__dirname}/${_lastDate}.zip`;
+                let fileName = `${_lastDate}.zip`;
                 let fileList = symbols.map(item => `${item}_${_lastDate}.txt`);
                 for (let _symbol of symbols) {
                     let s = lines[symbol].join('\n') + '\n';
