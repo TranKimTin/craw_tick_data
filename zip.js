@@ -1,8 +1,8 @@
 const fs = require('fs');
 const archiver = require('archiver');
 
-module.exports = function (fileList, zipName, removeAfterZip) {
-    const output = fs.createWriteStream(__dirname + '/' + zipName);
+module.exports = function (fileList, zipPath, removeAfterZip) {
+    const output = fs.createWriteStream(zipPath);
     const archive = archiver('zip', {
         zlib: { level: 9 }
     });
