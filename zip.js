@@ -9,7 +9,7 @@ module.exports = function (fileList, zipPath, removeAfterZip) {
 
     output.on('close', function () {
         console.log('Zip file done ' + archive.pointer() + ' total bytes');
-        if (removeAfterZip) {
+        if (archive.pointer() && removeAfterZip) {
             for (let file of fileList) {
                 try {
                     fs.unlinkSync(`${__dirname}/${file}`);
