@@ -1,4 +1,3 @@
-const fs = require('fs');
 const zip = require('./zip');
 let symbols = ['BTCBUSD', 'BTCUSDT', 'BTCTUSD'];
 let date = '2023-09-03';
