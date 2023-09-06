@@ -13,6 +13,7 @@ for (let symbol of symbols) {
     lines[symbol] = [];
 }
 
+let ziped = {};
 async function main(s) {
     console.log('craw', s, moment().format('YYYY-MM-DD HH:mm:SS'));
     const trade = new WebSocket(`wss://stream.binance.com:9443/ws/${s}@trade`);
@@ -21,8 +22,9 @@ async function main(s) {
             data = JSON.parse(data.toString());
             let symbol = data.s;
             let date = moment(data.E).utc(0).format('YYYY-MM-DD');
-            if (date != lastDate) {
+            if (date != lastDate && !ziped[lastDate]) {
                 let _lastDate = lastDate;
+                ziped[_lastDate] = true;
                 lastDate = date;
                 let zipPath = `${__dirname}/data/${_lastDate}.zip`;
                 let fileList = symbols.map(item => `${item}_${_lastDate}.txt`);
