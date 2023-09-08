@@ -23,9 +23,10 @@ async function main(s) {
             let symbol = data.s;
             let date = moment(data.E).utc(0).format('YYYY-MM-DD');
             if (date != lastDate && !ziped[lastDate]) {
+                console.log({ date, lastDate })
                 let _lastDate = lastDate;
-                ziped[_lastDate] = true;
                 lastDate = date;
+                ziped[_lastDate] = true;
                 let zipPath = `${__dirname}/data/${_lastDate}.zip`;
                 let fileList = symbols.map(item => `${item}_${_lastDate}.txt`);
                 for (let _symbol of symbols) {
@@ -45,7 +46,7 @@ async function main(s) {
             }
         }
         catch (err) {
-            console.error(err.message)
+            console.log('ERROR', err.message)
         }
     });
 }

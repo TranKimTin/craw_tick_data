@@ -2,6 +2,7 @@ const fs = require('fs');
 const archiver = require('archiver');
 
 module.exports = function (fileList, zipPath, removeAfterZip) {
+    console.log('zip', { fileList, zipPath })
     const output = fs.createWriteStream(zipPath);
     const archive = archiver('zip', {
         zlib: { level: 9 }
@@ -15,7 +16,7 @@ module.exports = function (fileList, zipPath, removeAfterZip) {
                     fs.unlinkSync(`${__dirname}/${file}`);
                 }
                 catch (err) {
-                    console.error(err.message);
+                    console.log('ERROR', err.message);
                 }
             }
         }
@@ -28,13 +29,13 @@ module.exports = function (fileList, zipPath, removeAfterZip) {
     archive.on('warning', function (err) {
         if (err.code === 'ENOENT') {
         } else {
-            console.error(err.message);
+            console.log('ERROR', err.message);
             throw err;
         }
     });
 
     archive.on('error', function (err) {
-        console.error(err.message);
+        console.log('ERROR', err.message);
         throw err;
     });
     archive.pipe(output);
