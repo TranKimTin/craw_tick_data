@@ -24,7 +24,7 @@ async function main(s) {
             let isFuture = data.X ? true : false;
             if (isFuture) symbol = 'f_' + symbol;
             let date = moment(data.E).utc(0).format('YYYY-MM-DD');
-            if (date != lastDate && !ziped[lastDate]) {
+            if (date != lastDate && !ziped[lastDate] && new Date(date).getTime() > new Date(lastDate).getTime()) {
                 console.log({ date, lastDate })
                 let _lastDate = lastDate;
                 lastDate = date;
