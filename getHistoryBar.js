@@ -19,7 +19,8 @@ async function getOHLCV(coin, time, limit) {
         if (limit > maxCall) console.log(`getOHLCV pending ${limit}`);
         let data = await binance.fetchOHLCV(coin, time, since, Math.min(limit, maxCall));
         data = data.map(item => ({
-            timestamp: moment(item[0]).utc(0).format('DD/MM/YYYY HH:mm:ss'),
+            day: moment(item[0]).utc(0).format('YYYY.MM.DD'),
+            hour: moment(item[0]).utc(0).format('HH:mm'),
             open: item[1],
             high: item[2],
             low: item[3],
@@ -44,15 +45,25 @@ async function getOHLCV(coin, time, limit) {
 }
 
 let symbol = 'BTC/USDT';
-let period = '1m';
+let period = '15m';
+let PERIOD = 15;
 async function main() {
-    let data = await getOHLCV(symbol, period, 60 * 24 * 365 * 2);
+    let oneDay = 1440;
+    let limit = oneDay * 365 * 4 / PERIOD;
+    let data = await getOHLCV(symbol, period, limit);
     let filename = `${symbol.replace('/', '_')}_${period}.csv`;
     fs.writeFileSync(filename, '');
+    let lines = [];
     for (let candle of data) {
-        let line = `${candle.timestamp}\t${candle.open}\t${candle.high}\t${candle.low}\t${candle.close}\t${candle.volume}\t0\t0\n`;
-        console.log(line)
-        fs.appendFileSync(filename, line);
+        //MT4
+        let line = `${candle.day}\t${candle.hour}\t${candle.open}\t${candle.high}\t${candle.low}\t${candle.close}\t${candle.volume}\n`;
+        lines.push(line);
+        if (lines.length > 10000) {
+            console.log(lines);
+            fs.appendFileSync(filename, lines.join(''));
+            lines = [];
+        }
     }
+    fs.appendFileSync(filename, lines.join(''));
 }
 main();
